@@ -1,2 +1,19 @@
 ﻿<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+@*script para que o javascript não trave para Cultura brasileira pt-BR*@
+@*<script>
+    $.validator.methods.range = function (value, element, param) {
+        var valueGlobalization = value.replace(",", ".");
+        return this.optional(element) || (valueGlobalization >= param[0] && valueGlobalization <= param[1]);
+    };
+
+    $.validator.methods.number = function (value, element) {
+        return this.optional(element) || /-?(?:\d+|{1,3}(?[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
+    };
+
+    $.validator.methods.date = function (value, element) {
+        var data = value.split("/");
+        return this.optional(element) || !/Invalid|NaN/.test(new Date(data[2], data[1], data[0]).toString());
+    };
+
+</script>*@

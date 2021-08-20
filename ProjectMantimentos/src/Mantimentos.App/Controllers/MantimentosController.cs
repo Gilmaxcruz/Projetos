@@ -6,6 +6,8 @@ using Mantimentos.App.Business.Models;
 using Mantimentos.App.Business.Interfaces;
 using AutoMapper;
 using Mantimentos.App.ViewModels;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace Mantimentos.App.Controllers
 {
@@ -33,7 +35,7 @@ namespace Mantimentos.App.Controllers
             _unidadeMedidaRepository = unidadeMedidaRepository;
             _tpMantimentoRepository = tpMantimentoRepository;
         }
-
+        [Route("lista-de-mantimentos")]
         public async Task<IActionResult> Index(MantimentoFilterViewModel mantimentoFilterViewModel)
         {
             //Criado a instancia para podermos receber e consultar os mesmos 
@@ -58,7 +60,7 @@ namespace Mantimentos.App.Controllers
             ViewBag.NomeUnidadeMedida = mantimentoFilterViewModel.NomeUnidade;
             return View(_mapper.Map<IEnumerable<MantimentoViewModel>>( await _MantimentoRepository.ObterTDados(mantimento)));
         }
-
+        [Route("detalhes-de-mantimentos/{id:guid}")]
         public async Task<IActionResult> Details(Guid id)
         {
             MantimentoViewModel mantimentoViewModel = await ObterMantimentoId(id);
@@ -68,7 +70,7 @@ namespace Mantimentos.App.Controllers
             }
             return View(mantimentoViewModel);
         }
-
+        [Route("novo-mantimento")]
         public async Task<IActionResult> Create()
         {
             //Obterndo a listagem para no momento da criação do mantimento selecionar os mesmos
@@ -79,7 +81,7 @@ namespace Mantimentos.App.Controllers
 
             return PartialView(mantimento);
         }
-
+        [Route("novo-mantimento")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(MantimentoViewModel mantimentoViewModel)
@@ -87,14 +89,20 @@ namespace Mantimentos.App.Controllers
             //Passados dados manualmente padrões de criação porque a ideia é que sejam carregados de acordo com as movimentações.
             //A imagem não foi passado uma vez que não será anexado nesse projeto de momento, fica para quando estiver um time melhor.
             if (!ModelState.IsValid) return View(mantimentoViewModel);
+            var imgId = Guid.NewGuid() + "_";
+            if(!await UploadArquivo(mantimentoViewModel.ImagemUp, imgId))
+            {
+                return View(mantimentoViewModel);
+            }
+            mantimentoViewModel.Imagem = imgId + mantimentoViewModel.ImagemUp.FileName;
+
             Mantimento mantimento = _mapper.Map<Mantimento>(mantimentoViewModel);
             mantimento.Estoque = 0;
             mantimento.ConteudoAtual = "0";
-            mantimento.Imagem = "imagem";
             await _MantimentoRepository.Adicionar(mantimento);
             return RedirectToAction(nameof(Index));
         }
-
+        [Route("edicao-de-mantimentos/{id:guid}")]
         public async Task<IActionResult> Edit(Guid id)
         {
             //Mesma situação do create, recebendo os dados para ser possivel seleção durante a edição
@@ -108,21 +116,31 @@ namespace Mantimentos.App.Controllers
             }
             return View(mantimentoViewModel);
         }
-       
+        [Route("edicao-de-mantimentos/{id:guid}")]
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id,  MantimentoViewModel mantimentoViewModel)
         {
             if (id != mantimentoViewModel.Id) return NotFound();
+            //var mantimentoAtualizacao = await ObterMantimentoId(id);
+            //mantimentoViewModel.Imagem = mantimentoAtualizacao.Imagem;
             if (!ModelState.IsValid) return View(mantimentoViewModel);
-            Mantimento mantimento =  _mapper.Map<Mantimento>(mantimentoViewModel);
-            mantimento.Imagem = "imagem";
 
+            if(mantimentoViewModel.ImagemUp != null)
+            {
+                var imgId = Guid.NewGuid() + "_";
+                if (!await UploadArquivo(mantimentoViewModel.ImagemUp, imgId))
+                {
+                    return View(mantimentoViewModel);
+                }
+                mantimentoViewModel.Imagem = imgId + mantimentoViewModel.ImagemUp.FileName;
+            }
+            Mantimento mantimento =  _mapper.Map<Mantimento>(mantimentoViewModel);
             await _MantimentoRepository.Atualizar(mantimento);
 
             return RedirectToAction("Index");
         }
-
+        [Route("exclusao-de-mantimentos/{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             MantimentoViewModel mantimentoViewModel = await ObterMantimentoId(id);
@@ -132,7 +150,7 @@ namespace Mantimentos.App.Controllers
             }
             return View(mantimentoViewModel);
         }
-
+        [Route("exclusao-de-mantimentos/{id:guid}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
@@ -140,10 +158,30 @@ namespace Mantimentos.App.Controllers
             await _MantimentoRepository.Remover(id);
             return RedirectToAction("Index");
         }
+        [Route("obter-mantimento-id/{id:guid}")]
         //Metodo ObterMantimentoId criado para melhor visualização de codigo, metodo privado para reduzir necessidade de passar mapeamento de busca de dados por id
         private async Task<MantimentoViewModel> ObterMantimentoId(Guid id)
         {
             return _mapper.Map<MantimentoViewModel>(await _MantimentoRepository.ObterPorId(id));
+        }
+
+        private async Task<bool> UploadArquivo(IFormFile arquivo, string prefixo)
+        {
+            if (arquivo.Length <= 0) return false;
+
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img", prefixo + arquivo.FileName);
+
+            if (System.IO.File.Exists(path))
+            {
+                ModelState.AddModelError(string.Empty, "Já existe um arquivo com este nome!");
+                return false;
+            }
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                await arquivo.CopyToAsync(stream);
+            }
+            return true;
         }
     }
 }

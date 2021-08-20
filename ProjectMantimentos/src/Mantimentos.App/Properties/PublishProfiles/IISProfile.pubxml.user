@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword />
+    <History>True|2021-08-19T13:42:05.9778225Z;True|2021-08-19T10:36:18.4895230-03:00;True|2021-08-19T10:24:16.1336828-03:00;True|2021-08-18T23:21:37.9367415-03:00;True|2021-08-18T23:20:42.7549893-03:00;True|2021-08-18T23:09:43.9705127-03:00;True|2021-08-18T23:08:37.9152413-03:00;True|2021-08-18T22:49:10.8731387-03:00;True|2021-08-18T22:48:01.5404042-03:00;</History>
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DATADB">
+      <Value>Server=%28localdb%29\mssqllocaldb%3bDatabase=DbMantimentos%3bUser Id=sa%3bPassword=123456789%3bMultipleActiveResultSets=true</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>

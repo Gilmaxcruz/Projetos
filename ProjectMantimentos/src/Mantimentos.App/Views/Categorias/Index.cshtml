@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Mantimentos.App.ViewModels.CategoriaViewModel>
+﻿@using Mantimentos.App.Extensions
+@model IEnumerable<Mantimentos.App.ViewModels.CategoriaViewModel>
 
 @{
     ViewData["Title"] = "Categorias";
@@ -16,7 +17,7 @@
     <thead class="thead-dark">
         <tr>
             <th>
-               Nome
+                Nome
             </th>
             <th></th>
         </tr>
@@ -29,9 +30,9 @@
                     @Html.DisplayFor(modelItem => item.CategoriaNome)
                 </td>
                 <td class="text-right">
-                    <a class="btn btn-warning text-white" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i> </a>
-                    <a class="btn btn-info " asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-info-circle "></i> </a>
-                    <a class="btn btn-danger  " asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash-alt "></i> </a>
+                    <a class="btn btn-warning text-white"disable-by-claim-name="Categoria"  disable-by-claim-value="Editar" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i> </a>
+                    <a class="btn btn-info "  asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-info-circle "></i> </a>
+                    <a class="btn btn-danger" supress-by-claim-name="Categoria" supress-by-claim-value="Excluir" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash-alt "></i> </a>
                 </td>
             </tr>
         }

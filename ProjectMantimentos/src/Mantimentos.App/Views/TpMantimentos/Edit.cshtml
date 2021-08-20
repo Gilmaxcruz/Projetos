@@ -42,7 +42,8 @@
             <input type="hidden" asp-for="Id" value="@Model.Id" id="hidden-id" />
             <div class="form-group">
                 <button type="button" class="btn btn-success" onclick="SalvarTpMantimento()"><i class="fas fa-check"></i> Salvar</button>
-                <a class="btn btn-info" asp-action="Index"><i class="fas fa-chevron-left"></i> Retornar a lista</a>
+                @*codigo javascript para retornar a view anterior.*@
+                <a class="btn btn-info" href="javascript:window.history.back();"><i class="fas fa-chevron-left"></i> Retornar a lista</a>
             </div>
         </form>
     </div>

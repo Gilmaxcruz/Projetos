@@ -2,7 +2,7 @@ using System;
 
 namespace Mantimentos.App.Business.Models
 {
-    public class ErrorViewModel
+    public class ErrorViewModela
     {
         public string RequestId { get; set; }
 

@@ -29,6 +29,7 @@ namespace Mantimentos.App.Controllers
             _mapper = mapper;
             _categoriaRepository = categoriaRepository;
         }
+        [Route("lista-de-tipos-de-mantimentos")]
         public async Task<IActionResult> Index(TpMantimentoFilterViewModel tpMantimentoFilterViewModel)
         {
             //Já na index criado a utilização de paglist,
@@ -65,6 +66,7 @@ namespace Mantimentos.App.Controllers
             IPagedList<TpMantimentoViewModel> query = query2.ToPagedList(numeroPagina, itensPorPagina);
             return View(query);
         }
+        [Route("detalhes-do-tipo-de-mantimento/{id:guid}")]
         public async Task<IActionResult> Details(Guid id)
         {
             TpMantimentoViewModel tpMantimentoViewModel = await ObterTpMantimentoId(id);
@@ -74,6 +76,7 @@ namespace Mantimentos.App.Controllers
             }
             return View(tpMantimentoViewModel);
         }
+        [Route("novo-tipo-de-mantimento")]
         [HttpGet]
         public async Task<IActionResult> Create()
         {
@@ -82,6 +85,7 @@ namespace Mantimentos.App.Controllers
 
             return PartialView(TpmantimentoViewModel);
         }
+        [Route("novo-tipo-de-mantimento")]
         [HttpPost]
         public async Task<IActionResult> Criar(TpMantimentoViewModel tpMantimentoViewModel)
         {
@@ -117,6 +121,7 @@ namespace Mantimentos.App.Controllers
             }
          
         }
+        [Route("edicao-do-tipo-de-mantimento/{id:guid}")]
         public async Task<IActionResult> Edit(Guid id)
         {
 
@@ -128,6 +133,7 @@ namespace Mantimentos.App.Controllers
             tpMantimentoViewModel.Categorias = await PopularCategorias();
             return View(tpMantimentoViewModel);
         }
+        [Route("edicao-do-tipo-de-mantimento/{id:guid}")]
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Editar(TpMantimentoViewModel tpMantimentoViewModel)
@@ -164,6 +170,7 @@ namespace Mantimentos.App.Controllers
                 throw;
             }
         }
+        [Route("exclusao-do-tipo-de-mantimento/{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             TpMantimentoViewModel tpMantimentoViewModel = await ObterTpMantimentoId(id);
@@ -173,7 +180,7 @@ namespace Mantimentos.App.Controllers
             }
             return View(tpMantimentoViewModel);
         }
-
+        [Route("exclusao-do-tipo-de-mantimento/{id:guid}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
@@ -181,6 +188,7 @@ namespace Mantimentos.App.Controllers
             await _TpMantimentoRepository.Remover(id);
             return RedirectToAction("Index");
         }
+        [Route("obter-tipo-de-mantimento-id/{id:guid}")]
         //Criado o metodo ObterTpMantimentoId para não ter necessidade de passar sempre o mapeamento no codigo, deixando mais Clean.
         private async Task<TpMantimentoViewModel> ObterTpMantimentoId(Guid id)
         {

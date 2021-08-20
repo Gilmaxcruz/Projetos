@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 
 
@@ -12,7 +13,7 @@ namespace Mantimentos.App.ViewModels
         public string UnidadeSigla { get; set; }
         public DateTime Validade { get; set; }
         public string Capacidade { get; set; }
-      //  public IFormFile ImagemUp { get; set; }
+        public IFormFile ImagemUp { get; set; }
         public string Imagem { get; set; }
         public string ConteudoAtual { get; set; }
         public double Estoque { get; set; }

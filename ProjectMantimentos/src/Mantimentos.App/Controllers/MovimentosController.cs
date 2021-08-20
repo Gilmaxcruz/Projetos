@@ -31,6 +31,7 @@ namespace Mantimentos.App.Controllers
         //Alem disso como nosso mantimento é de uma forma composta exemplo temos LEITE que é o Tipo de Mantimento, e esse produto é diferenciado com a marca.
         //Foi necessario retornar algo mais viavel ao usuario, sendo assim foi criado em um Foreach o item.nome que retorna essa concatenação.
         //Metodo  de concatenação criado tambem para o Create.
+        [Route("lista-de-movimentos")]
         public async Task<IActionResult> Index()
         {
             List<MovimentoViewModel> movimentoViewModels = _mapper.Map<List<MovimentoViewModel>>(await _MovimentoRepository.ObterTodos());
@@ -44,6 +45,7 @@ namespace Mantimentos.App.Controllers
 
             return View(movimentoViewModels);
         }
+        [Route("detalhes-de-movimentos/{id:guid}")]
         public async Task<IActionResult> Details(Guid id)
         {
             MovimentoViewModel movimentoViewModel = await ObterMovimentoId(id);
@@ -53,6 +55,7 @@ namespace Mantimentos.App.Controllers
             }
             return View(movimentoViewModel);
         }
+        [Route("novo-movimento")]
         public async Task<IActionResult> Create()
         {
             MovimentoViewModel movimentoViewModel = new();
@@ -63,7 +66,7 @@ namespace Mantimentos.App.Controllers
             }).ToList();
             return PartialView(movimentoViewModel);
         }
-
+        [Route("novo-movimento")]
         //Criado metodo AtualizarMantimentoPorId para poder ser possivel a movimentação do estoque e recalculos necessarios.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -75,6 +78,7 @@ namespace Mantimentos.App.Controllers
             _mantimentoRepository.AtualizarMantimentoPorId(movimentoViewModel.MantimentoId, movimentoViewModel.Quantidade, movimentoViewModel.TipoMovimento);
             return RedirectToAction(nameof(Index));
         }
+        [Route("edicao-de-movimento/{id:guid}")]
         public async Task<IActionResult> Edit(Guid id)
         {
             MovimentoViewModel movimentoViewModel = await ObterMovimentoId(id);
@@ -84,6 +88,7 @@ namespace Mantimentos.App.Controllers
             }
             return View(movimentoViewModel);
         }
+        [Route("edicao-de-movimento/{id:guid}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, MovimentoViewModel movimentoViewModel)
@@ -94,6 +99,7 @@ namespace Mantimentos.App.Controllers
             await _MovimentoRepository.Atualizar(movimento);
             return RedirectToAction("Index");
         }
+        [Route("exclusao-de-movimento/{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             MovimentoViewModel movimentoViewModel = await ObterMovimentoId(id);
@@ -103,6 +109,7 @@ namespace Mantimentos.App.Controllers
             }
             return View(movimentoViewModel);
         }
+        [Route("exclusao-de-movimento/{id:guid}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
@@ -110,6 +117,7 @@ namespace Mantimentos.App.Controllers
             await _MovimentoRepository.Remover(id);
             return RedirectToAction("Index");
         }
+        [Route("obter-movimento-id/{id:guid}")]
         //Metodo ObterMovimentoId criado para melhor visualização de codigo, metodo privado para reduzir necessidade de passar mapeamento de busca de dados por id
         private async Task<MovimentoViewModel> ObterMovimentoId(Guid id)
         {

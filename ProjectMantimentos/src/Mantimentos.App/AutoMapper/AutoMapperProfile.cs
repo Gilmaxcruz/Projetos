@@ -21,16 +21,6 @@ namespace Mantimentos.App.AutoMapper
             CreateMap<Movimento, MovimentoViewModel>().ReverseMap();
             CreateMap<Mantimento, MantimentoViewModel>().ReverseMap();
             CreateMap<TpMantimento, TpMantimentoViewModel>().ReverseMap();
-          //     .AfterMap((src, dest) =>
-          //      {
-          //          src.TpMantimentoCategoriaViewModels = _mapper.Map<List<TpMantimentoCategoriaViewModel>>(dest.TpMantimentoCategoria);
-          //      });
-          //  CreateMap<TpMantimentoViewModel, TpMantimento>().ReverseMap()
-          //.AfterMap((src, dest) =>
-          //{
-          //    dest.TpMantimentoCategoriaViewModels = _mapper.Map<List<TpMantimentoCategoriaViewModel>>(src.TpMantimentoCategoria);
-          //});
-
             CreateMap<TpMantimentoCategoria, TpMantimentoCategoriaViewModel>().ReverseMap();
             CreateMap<Categoria, CategoriaViewModel>().ReverseMap();
             CreateMap<UnidadeMedida, UnidadeMedidaViewModel>().ReverseMap();

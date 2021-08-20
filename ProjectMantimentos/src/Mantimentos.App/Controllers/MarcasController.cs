@@ -22,12 +22,14 @@ namespace Mantimentos.App.Controllers
             _MarcaRepository = MarcaRepository;
             _mapper = mapper;
         }
-
+        [Route("lista-de-marcas")]
         //Retornando no index todos as marcas ja existentes.
         public async Task<IActionResult> Index()
         {
             return View( _mapper.Map<IEnumerable<MarcaViewModel>>(await _MarcaRepository.ObterTodos()));
         }
+
+        [Route("detalhes-da-marca/{id:guid}")]
         public async Task<IActionResult> Details(Guid id)
         {
             MarcaViewModel marcaViewModel = await ObterMarcaId(id);
@@ -37,11 +39,13 @@ namespace Mantimentos.App.Controllers
             }
             return View(marcaViewModel);
         }
+        [Route("nova-marca")]
         //Create retornando PartialView por conta do Modal existente
         public IActionResult Create()
         {
             return PartialView();
         }
+        [Route("nova-marca")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(MarcaViewModel marcaViewModel)
@@ -51,6 +55,7 @@ namespace Mantimentos.App.Controllers
             await _MarcaRepository.Adicionar(marca);
             return RedirectToAction(nameof(Index));
         }
+        [Route("edicao-da-marca/{id:guid}")]
         public async Task<IActionResult> Edit(Guid id)
         {
             MarcaViewModel marcaViewModel = await ObterMarcaId(id);
@@ -60,6 +65,7 @@ namespace Mantimentos.App.Controllers
             }
             return View(marcaViewModel);
         }
+        [Route("edicao-da-marca/{id:guid}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, MarcaViewModel marcaViewModel)
@@ -70,6 +76,7 @@ namespace Mantimentos.App.Controllers
             await _MarcaRepository.Atualizar(marca);
             return RedirectToAction("Index");
         }
+        [Route("excluir-marca/{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             MarcaViewModel marcaViewModel = await ObterMarcaId(id);
@@ -79,6 +86,7 @@ namespace Mantimentos.App.Controllers
             }
             return View(marcaViewModel);
         }
+        [Route("excluir-marca/{id:guid}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
@@ -86,6 +94,7 @@ namespace Mantimentos.App.Controllers
             await _MarcaRepository.Remover(id);
             return RedirectToAction("Index");
         }
+        [Route("obter-marca-id/{id:guid}")]
         //Metodo ObterMarcaId criado para melhor visualização de codigo, metodo privado para reduzir necessidade de passar mapeamento de busca de dads=os por id
         private async Task<MarcaViewModel> ObterMarcaId(Guid id)
         {
