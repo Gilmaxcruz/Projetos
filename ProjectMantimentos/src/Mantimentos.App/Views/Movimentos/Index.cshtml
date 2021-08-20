@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Mantimentos.App.ViewModels.MovimentoViewModel>
+
+@{
+    ViewData["Title"] = "Movimento";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row" style="margin-top:1%">
+    <div class="col-lg-9 "></div>
+    <div class="col-lg-3">
+        <a class="btn btn-info btn-movimento text-white float-right"><i class="fas fa-plus"></i> Novo Movimento </a>
+    </div>
+</div>
+<table class="table table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+               Mantimento
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantidade)
+            </th>
+            <th>
+               Movimento
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantidade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoMovimento)
+            </td>
+            <td class="text-right">
+                @*<a class="btn btn-warning text-white" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i> </a>*@
+                @*<a class="btn btn-info " asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-info-circle "></i> </a>*@
+                @*<a class="btn btn-danger  " asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash-alt "></i> </a>*@
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+<div class="modal-movimento"></div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $('.btn-movimento').click(function () {
+            $('.modal-movimento').load('@Url.Action("Create","Movimentos")', function () {
+                $('.modal-movimento').modal('show')
+            });
+        });
+    </script>
+}

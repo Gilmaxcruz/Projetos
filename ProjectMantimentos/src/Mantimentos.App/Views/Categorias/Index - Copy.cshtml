@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Mantimentos.App.ViewModels.CategoriaViewModel>
+
+@{
+    ViewData["Title"] = "Categorias";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row" style="margin-top:1%">
+    <div class="col-lg-9 "></div>
+    <div class="col-lg-3">
+        <a class="btn btn-info btn-categoria text-white float-right"><i class="fas fa-plus"></i> Nova Categoria </a>
+    </div>
+</div>
+<table class="table table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+               Nome
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoriaNome)
+                </td>
+                <td class="text-right">
+                    <a class="btn btn-warning text-white" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i> </a>
+                    <a class="btn btn-info " asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-info-circle "></i> </a>
+                    <a class="btn btn-danger  " asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash-alt "></i> </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="modal-categoria"></div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $('.btn-categoria').click(function () {
+            $('.modal-categoria').load('@Url.Action("Create","Categorias")', function () {
+                $('.modal-categoria').modal('show')
+            });
+        });
+    </script>
+}

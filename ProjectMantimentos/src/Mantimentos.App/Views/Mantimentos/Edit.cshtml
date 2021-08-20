@@ -1,0 +1,66 @@
+﻿@model Mantimentos.App.ViewModels.MantimentoViewModel
+
+@{
+    ViewData["Title"] = "Editar";
+}
+
+
+<h4>Mantimento</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">Tipo</label>
+                <select asp-for="TipoMantimentoId" class="form-control" asp-items="@(new SelectList(Model.TpMantimentos,"Id","Nome"))">
+                    <option></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Marca</label>
+                <select asp-for="MarcaId" class="form-control" asp-items="@(new SelectList(Model.Marcas,"Id","Nome"))">
+                    <option></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Unidade</label>
+                <select asp-for="UnidadeSigla" class="form-control" asp-items="@(new SelectList(Model.UnidadeMedidas,"Sigla","Unidade"))">
+                    <option></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Validade" class="control-label"></label>
+                <input asp-for="Validade" class="form-control" />
+                <span asp-validation-for="Validade" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="Capacidade" class="control-label"></label>
+                <input asp-for="Capacidade" class="form-control" value="@Model.Capacidade" disabled />
+                <span asp-validation-for="Capacidade" class="text-danger"></span>
+            </div>*@
+            @*<div class="form-group">
+            <label asp-for="Imagem" class="control-label"></label>
+            <input asp-for="Imagem" class="form-control" />
+            <span asp-validation-for="Imagem" class="text-danger"></span>
+        </div>*@
+            <div class="form-group">
+                <label class="control-label">Estoque Mínimo</label>
+                <input asp-for="EstoqueMin" class="form-control" />
+                <span asp-validation-for="EstoqueMin" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <button type="submit" class="btn btn-success"><i class="fas fa-check"></i> Salvar</button>
+                <a class="btn btn-info" asp-action="Index"><i class="fas fa-chevron-left"></i> Retornar a lista</a>
+            </div>
+            <input type="hidden" asp-for="ConteudoAtual" />
+            <input type="hidden" asp-for="Imagem" />
+            <input type="hidden" asp-for="Estoque" />
+            <input type="hidden" asp-for="Capacidade" />
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

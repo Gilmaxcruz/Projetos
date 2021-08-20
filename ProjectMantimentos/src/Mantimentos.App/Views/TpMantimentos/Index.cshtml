@@ -1,0 +1,84 @@
+﻿@model X.PagedList.IPagedList<Mantimentos.App.ViewModels.TpMantimentoViewModel>
+@using X.PagedList.Mvc.Core;
+
+
+@{
+    ViewData["Title"] = "Tipo de Mantimentos";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-action="Index">
+    <div class="row">
+        <div class="col-lg-6">
+            <label>Descrição</label>
+            <input type="text" name="Nome" class="form-control form-control-sm" value="@ViewBag.Nome" />
+        </div>
+        <div class="col-lg-3">
+            <button type="submit" class="btn btn-primary  float-left" style="margin-top:10%"><i class="fas fa-search"></i> Buscar</button>
+        </div>
+        <div class="col-lg-3">
+            <a class="btn btn-info btn-tpmantimento text-white float-right" style="margin-top:10%"><i class="fas fa-plus"></i> Novo Tipo Mantimento </a>
+        </div>
+    </div>
+</form>
+<div class="row" style="margin-top:1%">
+<div class="col-lg-12">
+    <table class="table table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>
+                    Nome
+                </th>
+                <th>
+                    Obrigatoriedade
+                </th>
+                <th>
+                    Categoria
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Obrigatorio)
+                    </td>
+                    <td>
+                        @foreach (var item2 in  item.TpMantimentoCategoriaViewModels)
+                        {
+                            <p>
+                                @item2.Categoria.CategoriaNome
+                            </p>
+                        }
+                    </td>
+                    <td class="text-right">
+                        <a class="btn btn-warning text-white" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i> </a>
+                        <a class="btn btn-info " asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-info-circle "></i> </a>
+                        <a class="btn btn-danger  " asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash-alt "></i> </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+</div>
+
+<div class="modal-tpmantimento"></div>
+
+@Html.PagedListPager(Model, pag => Url.Action("Index", new { pag }))
+
+@section Scripts{
+    <script type="text/javascript">
+        $('.btn-tpmantimento').click(function () {
+            $('.modal-tpmantimento').load('@Url.Action("Create","TpMantimentos")', function () {
+                $('.modal-tpmantimento').modal('show')
+            });
+        });
+    </script>
+}

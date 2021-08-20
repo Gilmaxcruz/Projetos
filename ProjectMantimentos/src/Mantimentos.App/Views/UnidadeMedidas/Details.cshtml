@@ -1,0 +1,23 @@
+﻿@model Mantimentos.App.ViewModels.UnidadeMedidaViewModel
+
+@{
+    ViewData["Title"] = "Detalhes";
+}
+
+<h1>@ViewData["Title"] </h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            <h4>Categoria</h4>
+        </dt>
+        <dd class="col-sm-10">
+            <h5>  @Html.DisplayFor(model => model.Unidade)</h5>
+        </dd>
+    </dl>
+</div>
+<div>
+    <a class="btn btn-warning text-white" asp-action="Edit" asp-route-sigla="@Model.Sigla"><i class="fas fa-edit"></i> </a>
+    <a class="btn btn-info" asp-action="Index"><i class="fas fa-chevron-left"></i></a>
+</div>

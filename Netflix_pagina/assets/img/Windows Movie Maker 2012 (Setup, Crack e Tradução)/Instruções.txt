@@ -1,0 +1,19 @@
+windows-movie-maker-2016
+
+Após instalar o programa Movie Maker, clique com o botão direito do mouse em cima do ícone do 
+programa criado na área de trabalho.
+Clique em "abrir local do arquivo" 
+Copie os dois arquivos da pasta "Arquivos de Tradução + Crack" e cole esses arquivos
+(pasta pt-br + MovieMaker) neste local onde está instalado o programa. 
+Quando pedir para substituir, substitua o arquivo.
+
+Ou abra Meu Computador, Disco Local C, Arquivos De Programas (x86), 
+Windows Live, Photo Gallery e cole os arquivos "MovieMaker e Pasta pt-br" aqui. 
+Quando pedir para substituir, substitua o arquivo. 
+
+Prontinho, o Movie Maker está crackeado e em português. 
+
+
+
+
+

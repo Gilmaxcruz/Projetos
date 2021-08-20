@@ -1,0 +1,94 @@
+﻿@{
+    ViewData["Title"] = "Bem-vindo ao TFOQ!";
+}
+
+<h4>@ViewData["Title"]</h4>
+<div class="text-center">
+    <canvas id="myChart" width="20" height="8"></canvas>
+</div>
+<hr />
+<div class="row">
+    <div class="col-lg-12">
+        <h5>Implementação JWT</h5>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-2">
+        <button type="button" class="btn btn-primary btn-sm btn-gerar-token">Gerar Token</button>
+    </div>
+    <div class="col-lg-3">
+        <input type="text" readonly class="form-control form-control-sm input-value-token" />
+    </div>
+    <div class="col-lg-3">
+        <button type="button" class="btn btn-primary btn-sm btn-validar-token">Validar Token</button>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document)
+            .ready(function () {
+                var ctx = document.getElementById('myChart');
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Sem estoque', 'Com estoque'],
+                        datasets: [{
+                            data: ['@ViewBag.qtdc', '@ViewBag.qtd'],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)'
+
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)'
+
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            });
+
+        $('.btn-gerar-token').click(function () {
+            $.ajax({
+                method: "GET",
+                url: "Home/GetToken"
+            }).done(function (msg) {
+                console.log('msg', msg);
+                $('.input-value-token').val(msg);
+            });
+        });
+
+        $('.btn-validar-token').click(function () {
+            $.ajax({
+                method: "GET",
+                url: "Home/ValidToken",
+                data: {
+                    token: $('.input-value-token').val()
+                }
+            }).done(function (retorno, error) {
+                if (error == 'success' && retorno =='') {
+                    alert('token válido!')
+                }
+                else {
+                    alert('Token Inválido:');
+                }
+            });
+        });
+    </script>
+}

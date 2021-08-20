@@ -1,0 +1,153 @@
+﻿@model IEnumerable<Mantimentos.App.ViewModels.MantimentoViewModel>
+
+@{
+    ViewData["Title"] = "Mantimento";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-action="Index">
+    <div class="row">
+        <div class="col-lg-3">
+            <label>Tipo Mantimento</label>
+            <input type="text" name="NomeTpMantimento" class="form-control form-control-sm" value="@ViewBag.NomeTpMantimento" />
+        </div>
+        <div class="col-lg-3">
+            <label>Marca</label>
+            <input type="text" name="NomeMarca" class="form-control form-control-sm" value="@ViewBag.NomeMarca" />
+        </div>
+        <div class="col-lg-3">
+            <label>Unidade</label>
+            <input type="text" name="NomeUnidade" class="form-control form-control-sm" value="@ViewBag.NomeUnidadeMedida" />
+        </div>
+        <div class="col-lg-3">
+            <button type="submit" class="btn btn-primary  float-right" style="margin-top:12%"><i class="fas fa-search"></i> Buscar</button>
+        </div>
+    </div>
+</form>
+<div class="row" style="margin-top:1%">
+    <div class="col-lg-9 "></div>
+        <div class="col-lg-3">
+            <a class="btn btn-info btn-mantimento text-white float-right"><i class="fas fa-plus"></i> Novo mantimento </a>
+        </div>
+    </div>
+<div class="row">
+    <div class="col-lg-12">
+        <table class="table table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>
+                      Tipo
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Marca)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Capacidade)
+                    </th>
+                    <th>
+                       Conteúdo Atual
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Estoque)
+                    </th>
+                    <th>
+                       Estoque Min
+                    </th>
+                    <th>
+                        Unidade Medida
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Validade)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    @if (item.TpMantimento.Obrigatorio = true && item.Estoque <= 0)
+                    {
+                <tr class="alert-danger">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TpMantimento.Nome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Marca.Nome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Capacidade)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ConteudoAtual)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Estoque)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EstoqueMin)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnidadeMedida.Sigla)
+                    </td>
+                    <td>
+                        @item.Validade.ToString("dd/MM/yyyy")
+                    </td>
+                    <td class="text-right">
+                        <a class="btn btn-warning text-white" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i> </a>
+                        @*<a class="btn btn-info " asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-info-circle "></i> </a>*@
+                        <a class="btn btn-danger  " asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash-alt "></i> </a>
+                    </td>
+                </tr>
+                    }
+                    else
+                    {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TpMantimento.Nome)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Marca.Nome)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Capacidade)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ConteudoAtual)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Estoque)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EstoqueMin)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UnidadeMedida.Sigla)
+                        </td>
+                        <td>
+                            @item.Validade.ToString("dd/MM/yyyy")
+                        </td>
+                        <td class="text-right">
+                            <a class="btn btn-warning text-white" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i> </a>
+                            @*<a class="btn btn-info " asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-info-circle "></i> </a>*@
+                            <a class="btn btn-danger  " asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash-alt "></i> </a>
+                        </td>
+                    </tr>
+                        }
+                    }
+            </tbody>
+        </table>
+    </div>
+</div>
+ 
+    <div class="modal-mantimento"></div>
+
+    @section Scripts{
+        <script type="text/javascript">
+        $('.btn-mantimento').click(function () {
+            $('.modal-mantimento').load('@Url.Action("Create","Mantimentos")', function () {
+                $('.modal-mantimento').modal('show')
+            });
+        });
+        </script>
+    }

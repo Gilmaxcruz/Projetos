@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Mantimentos.App.ViewModels.UnidadeMedidaViewModel>
+
+@{
+    ViewData["Title"] = "Unidade de Medida";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row" style="margin-top:1%">
+    <div class="col-lg-9 "></div>
+    <div class="col-lg-3">
+        <a class="btn btn-info btn-Unidade text-white float-right"><i class="fas fa-plus"></i> Nova Unidade de Medida </a>
+    </div>
+</div>
+<table class="table table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Sigla)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Unidade)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sigla)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Unidade)
+                </td>
+                <td class="text-right">
+                    <a class="btn btn-warning text-white" asp-action="Edit" asp-route-sigla="@item.Sigla"><i class="fas fa-edit"></i> </a>
+                    <a class="btn btn-info " asp-action="Details" asp-route-sigla="@item.Sigla"><i class="fas fa-info-circle "></i> </a>
+                    <a class="btn btn-danger  " asp-action="Delete" asp-route-sigla="@item.Sigla"><i class="fas fa-trash-alt "></i> </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="modal-Unidade"></div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $('.btn-Unidade').click(function () {
+            $('.modal-Unidade').load('@Url.Action("Create","UnidadeMedidas")', function () {
+                $('.modal-Unidade').modal('show')
+            });
+        });
+    </script>
+}
